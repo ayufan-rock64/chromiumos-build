@@ -1,0 +1,34 @@
+{
+  "_comment": "See http://www.chromium.org/chromium-os/developer-guide/disk-layout-format",
+  "parent": "legacy_disk_layout.json",
+  "layouts": {
+    # common is the standard layout template.
+    "common": [
+      {
+        # Enlarge Firmware partition
+        "num": 11,
+        "size": "20 MiB"
+      },
+      {
+        # Kernel for Slot A.
+        "num": 2,
+        "size": "32 Mib"
+      },
+      {
+        # Kernel for Slot B.
+        "num": 4,
+        "size": "32 Mib"
+      },
+      {
+        # Enlarge ESP, kernel files need to be there for u-boot
+        "num": 12,
+        "size": "200 MiB"
+      },
+      {
+        # Slot A rootfs. Rootfs + extras must fit.
+        "num": 3,
+        "fs_format": "ext4"
+      }
+    ]
+  }
+}

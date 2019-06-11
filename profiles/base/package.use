@@ -1,0 +1,1 @@
+sys-kernel/rockchip-kernel -clang -arm boot_dts_device_tree
