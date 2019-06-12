@@ -7,7 +7,7 @@ SLOT="0"
 KEYWORDS="-* arm64 arm"
 
 DEPEND="
-    chromeos-base/tty
+    >=chromeos-base/tty-0.0.1-r99
     >=chromeos-base/chromeos-bsp-baseboard-gru-0.0.3
 "
 
