@@ -34,7 +34,43 @@ DESCRIPTION="Rockchip Linux Kernel 4.4"
 KEYWORDS="*"
 
 src_install() {
-  cros-kernel2_src_install "$@"
+  local kernel_dir=$(cros-workon_get_build_dir)
+  local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
+  local kernel_version=$(kernelrelease)
 
+  info "Install /boot/"
+	dodir /boot
+	kmake INSTALL_PATH="${D}/boot" install
+
+  info "Install /usr/lib/debug/boot/"
+	insinto /usr/lib/debug/boot
+	doins "$(cros-workon_get_build_dir)/vmlinux"
+
+  info "Install /lib/modules/"
+  kmake INSTALL_MOD_PATH="${D}" INSTALL_MOD_STRIP="magic" \
+    STRIP="$(eclass_dir)/strip_splitdebug" \
+    modules_install
+
+  info "Install /boot/dtbs/"
 	kmake INSTALL_DTBS_PATH="${D}/boot/dtbs/$(kernelrelease)" dtbs_install
+
+  info "Install ${D}/boot/extlinux.conf"
+  cat > "${kernel_dir}/extlinux.conf" <<EOF
+menu title Boot Menu
+default rockchip-${kernel_version}
+timeout 20
+
+label rockchip-${kernel_version}
+    kernel /boot/vmlinuz-${kernel_version}
+    devicetreedir /boot/dtbs/${kernel_version}
+    append earlyprintk console=ttyS2,1500000n8 rw root=/dev/mmcblk0p3 rootfstype=ext4 init=/sbin/init rootwait cros_debug loglevel=7 dm_verity.error_behavior=3 dm_verity.max_bios=-1 dm_verity.dev_wait=0 dm="1 vroot none ro 1,0 2539520 verity payload=/dev/mmcblk0p3 hashtree=HASH_DEV hashstart=2539520 alg=sha1 root_hexdigest=a1910fbe4a24a30d19a49b85d2889776251e54e3 salt=c520b38f1057e5bef0aa64c00cd0d2e50662e22bf19771278921f90a35fd616d" vt.global_cursor_default=0 ethaddr=\${ethaddr} eth1addr=\${eth1addr} serial=\${serial#}
+
+label rockchip-${kernel_version}-ro
+    kernel /boot/vmlinuz-${kernel_version}
+    devicetreedir /boot/dtbs/${kernel_version}
+    append earlyprintk console=ttyS2,1500000n8 ro root=/dev/mmcblk0p3 rootfstype=ext4 init=/sbin/init rootwait cros_debug loglevel=7 dm_verity.error_behavior=3 dm_verity.max_bios=-1 dm_verity.dev_wait=0 dm="1 vroot none ro 1,0 2539520 verity payload=/dev/mmcblk0p3 hashtree=HASH_DEV hashstart=2539520 alg=sha1 root_hexdigest=a1910fbe4a24a30d19a49b85d2889776251e54e3 salt=c520b38f1057e5bef0aa64c00cd0d2e50662e22bf19771278921f90a35fd616d" vt.global_cursor_default=0 ethaddr=\${ethaddr} eth1addr=\${eth1addr} serial=\${serial#}
+EOF
+
+  insinto "/boot/extlinux"
+  doins "${kernel_dir}/extlinux.conf"
 }
