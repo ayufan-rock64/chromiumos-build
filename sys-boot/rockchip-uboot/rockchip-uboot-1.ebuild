@@ -18,6 +18,7 @@ S=${WORKDIR}
 inherit cros-binary
 
 src_install() {
+	dd if="${S}/u-boot-flash-spi-${VARIANT}.img" of="${S}/bootloader.bin" skip=64 count=8127
 	insinto /boot
-	doins -r *
+	doins bootloader.bin
 }
