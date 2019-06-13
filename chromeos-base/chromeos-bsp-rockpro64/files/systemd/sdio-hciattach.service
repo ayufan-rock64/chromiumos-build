@@ -1,0 +1,10 @@
+[Unit]
+Description=Start bluetooth on ttyS0
+After=systemd-modules-load.service local-fs.target
+
+[Service]
+Type=forking
+ExecStart=/bin/bash -c 'echo 0 > /sys/class/rfkill/rfkill0/state; sleep 1; echo 1 > /sys/class/rfkill/rfkill0/state; sleep 1; exec /usr/bin/hciattach /dev/ttyS0 any 115200 flow nosleep'
+
+[Install]
+WantedBy=system-services.target
