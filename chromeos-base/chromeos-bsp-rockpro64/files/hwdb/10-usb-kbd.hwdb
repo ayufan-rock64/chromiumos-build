@@ -1,0 +1,3 @@
+evdev:input:b0003v258Ap001E*
+  KEYBOARD_KEY_700a5=brightnessdown
+  KEYBOARD_KEY_700a6=brightnessup
