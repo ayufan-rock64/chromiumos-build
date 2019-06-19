@@ -28,11 +28,16 @@ install_rockpro64_efi_boot_scr() {
   local efi_size=$((efi_size_sectors * 512))
   local efi_dir=$(mktemp -d)
 
+  info "Mounting EFI partition"
   sudo mount -o loop,offset=${efi_offset},sizelimit=${efi_size} "$1" \
     "${efi_dir}"
+
+  info "Copying /boot/boot.src"
   sudo cp "${ROOT}/boot/boot.scr" "${efi_dir}/"
   sudo umount "${efi_dir}"
   rmdir "${efi_dir}"
+
+  info "Installed /efi/boot.scr"
 }
 
 make_root_a_b_bootable() {
