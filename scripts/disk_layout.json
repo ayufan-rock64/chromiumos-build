@@ -28,6 +28,11 @@
         # Slot A rootfs. Rootfs + extras must fit.
         "num": 3,
         "fs_format": "ext4"
+      },
+      {
+        # Enlarge User data.
+        "num": 1,
+        "size": "4 GiB"
       }
     ]
   }
