@@ -37,7 +37,7 @@ src_install() {
   local kernel_dir=$(cros-workon_get_build_dir)
   local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
   local kernel_release=$(kernelrelease)
-  local kernel_version=$(kmake kernelversion)
+  local kernel_version=$(kmake -s kernelversion)
 
   info "Install /boot/"
 	dodir /boot
