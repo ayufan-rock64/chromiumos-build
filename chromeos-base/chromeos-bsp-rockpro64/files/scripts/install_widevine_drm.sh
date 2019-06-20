@@ -60,8 +60,12 @@ cp -av rootfs/opt/google/chrome/libwidevinecdm.so /opt/google/chrome/
 echo "Copying PepperFlash..."
 cp -av rootfs/opt/google/chrome/pepper/ /opt/google/chrome/
 
-echo "Copying Drive-File-Stream..."
-cp -av rootfs/opt/google/drive-file-stream /opt/google/
+# echo "Copying Drive-File-Stream..."
+# cp -av rootfs/opt/google/drive-file-stream /opt/google/
+# cp -av rootfs/usr/lib/libdrivefs.so /usr/lib/
+# if [[ ! -e /usr/lib/libprotobuf.so.17 ]]; then
+#   cp -av rootfs/usr/lib/libprotobuf.so.17* /usr/lib/
+# fi
 
 echo "Copying Containers..."
 cp -av rootfs/opt/google/containers /opt/google/
