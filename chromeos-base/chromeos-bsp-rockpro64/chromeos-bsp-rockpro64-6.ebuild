@@ -17,12 +17,10 @@ DEPEND="
 
 RDEPEND="
   $DEPEND
+	net-misc/rsync
   net-wireless/bluez
   sys-boot/rockchip-uboot
 "
-
-# For now include all dev packages
-RDEPEND="$RDEPEND virtual/target-os-dev"
 
 S="${WORKDIR}"
 
