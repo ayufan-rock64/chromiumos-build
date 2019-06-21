@@ -1,0 +1,61 @@
+commit 804b526268ba54df99f4846948ef2572e8673537
+Author: Kamil Trzciński <ayufan@ayufan.eu>
+Date:   Fri Jun 21 15:30:00 2019 +0200
+
+    Enable Widevine
+    
+    Change-Id: I36a27dc28fddeaad07e71d7541f3d4f58c3d127b
+
+diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
+index 41db62cefc4..29a474da0c7 100644
+--- a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
++++ b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
+@@ -230,7 +230,9 @@ DEPEND="${DEPEND}
+ 	arm? ( x11-libs/libdrm )
+ "
+ 
+-PATCHES=()
++PATCHES=(
++	"${FILESDIR}"/patches/widevine-enable-version-string.patch
++)
+ 
+ AUTOTEST_COMMON="src/chrome/test/chromeos/autotest/files"
+ AUTOTEST_DEPS="${AUTOTEST_COMMON}/client/deps"
+diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild
+new file mode 120000
+index 00000000000..dabd8762326
+--- /dev/null
++++ b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild
+@@ -0,0 +1 @@
++chromeos-chrome-77.0.3813.0_rc-r1.ebuild
+\ No newline at end of file
+diff --git a/chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch b/chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch
+new file mode 100644
+index 00000000000..00bca3bfdd6
+--- /dev/null
++++ b/chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch
+@@ -0,0 +1,24 @@
++Description: enable widevine and set its version string to "undefined"
++Author: Michael Gilbert <mgilbert@debian.org>
++Author: Olivier Tilloy <olivier.tilloy@canonical.com>
++
++--- a/third_party/widevine/cdm/widevine_cdm_version.h
+++++ b/third_party/widevine/cdm/widevine_cdm_version.h
++@@ -11,5 +11,6 @@
++ // If the Widevine CDM is available define the following:
++ //  - WIDEVINE_CDM_VERSION_STRING (with the version of the CDM that's available
++ //    as a string, e.g., "1.0.123.456").
+++#define WIDEVINE_CDM_VERSION_STRING "undefined"
++ 
++ #endif  // WIDEVINE_CDM_VERSION_H_
++--- a/chrome/common/chrome_content_client.cc
+++++ b/chrome/common/chrome_content_client.cc
++@@ -97,7 +97,7 @@
++ // Registers Widevine CDM if Widevine is enabled, the Widevine CDM is
++ // bundled and not a component. When the Widevine CDM is a component, it is
++ // registered in widevine_cdm_component_installer.cc.
++-#if BUILDFLAG(BUNDLE_WIDEVINE_CDM) && !BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
+++#if !BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
++ #define REGISTER_BUNDLED_WIDEVINE_CDM
++ #include "third_party/widevine/cdm/widevine_cdm_common.h"  // nogncheck
++ // TODO(crbug.com/663554): Needed for WIDEVINE_CDM_VERSION_STRING. Support
