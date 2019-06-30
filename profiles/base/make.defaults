@@ -23,6 +23,8 @@ USE="${USE} trim_supported cups usbguard"
 
 LINUX_FIRMWARE="${LINUX_FIRMWARE} rockchip-dptx"
 
+INPUT_DEVICES="synaptics cmt"
+
 # All firmwares to build from the EC code base
 EC_FIRMWARE=""
 
