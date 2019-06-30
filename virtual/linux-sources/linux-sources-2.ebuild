@@ -12,5 +12,5 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	sys-kernel/rockchip-kernel
+	kernel-4_4? ( sys-kernel/rockchip-kernel )
 "
