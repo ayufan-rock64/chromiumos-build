@@ -9,7 +9,7 @@ HOMEPAGE="http://src.chromium.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="kernel-4_4"
 
 RDEPEND="
 	kernel-4_4? ( sys-kernel/rockchip-kernel )
