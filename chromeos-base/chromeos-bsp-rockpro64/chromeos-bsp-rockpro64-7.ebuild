@@ -38,6 +38,10 @@ src_install() {
   insinto "/etc/udev/hwdb.d"
   doins "${FILESDIR}"/hwdb/*
 
+  # Install touchpad
+  insinto "/etc/gesture"
+  doins "${FILESDIR}"/gesture/*
+
   # Install audio config files
   local audio_config_dir="${FILESDIR}/audio-config"
   install_audio_configs kevin "${audio_config_dir}"
