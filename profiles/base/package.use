@@ -1,3 +1,3 @@
 sys-kernel/rockchip-kernel -clang -arm boot_dts_device_tree
 net-wireless/bluez bt_deprecated_tools
-chromeos-base/chromeos-chrome chrome_internal
+chromeos-base/chromeos-chrome -chrome_internal
