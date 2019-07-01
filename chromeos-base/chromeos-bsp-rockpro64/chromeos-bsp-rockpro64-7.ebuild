@@ -42,6 +42,10 @@ src_install() {
   insinto "/etc/gesture"
   doins "${FILESDIR}"/gesture/*
 
+	# Install Bluetooth ID override.
+	insinto "/etc/bluetooth"
+	doins "${FILESDIR}"/bluetooth/*
+
   # Install audio config files
   local audio_config_dir="${FILESDIR}/audio-config"
   install_audio_configs kevin "${audio_config_dir}"
