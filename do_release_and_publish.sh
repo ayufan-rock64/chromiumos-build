@@ -6,11 +6,6 @@ if [[ -e .env ]]; then
   source .env
 fi
 
-BUILD_NUMBER="${CI_PIPELINE_IID}"
-VERSION="$(cat VERSION)"
-DATE=$(date +%Y_%m_%d_%H%M)
-SHA=$(git rev-parse --short HEAD)
-
 if [[ -n "$1" ]]; then
   BUILD_NUMBER="${1}"
 elif [[ -n "$CI_PIPELINE_IID" ]]; then
@@ -20,11 +15,28 @@ else
   exit 1
 fi
 
+export $("../../third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh" | grep CHROMEOS_BUILD)
+
+if [[ -z "$CHROMEOS_BUILD" ]]; then
+  echo "Missing CHROMEOS_BUILD."
+  exit 1
+fi
+
 if [[ -z "$BOARD" ]]; then
   export BOARD="${2:-rockpro64}"
 fi
 
-export RELEASE="${VERSION}.${BUILD_NUMBER}.${DATE}.g${SHA}"
+SHA=$(git rev-parse --short HEAD)
+LOCAL_VERSION=$(cat VERSION)
+
+export VERSION="${CHROMEOS_BUILD}.${LOCAL_VERSION}.${BUILD_NUMBER}.g${SHA}"
+export RELEASE="R${CHROME_BRANCH}-${VERSION}"
+export FLAGS_version="${VERSION}"
+
+# print current version
+(
+  ../../third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh
+)
 
 set -xe
 

@@ -11,6 +11,11 @@ if [[ -z "$BOARD" ]]; then
   exit 1
 fi
 
+if [[ -z "$VERSION" ]]; then
+  echo "Missing VERSION."
+  exit 1
+fi
+
 if [[ -z "$RELEASE" ]]; then
   echo "Missing RELEASE."
   exit 1
@@ -31,29 +36,13 @@ if [[ -z "$GITHUB_TOKEN" ]]; then
   exit 1
 fi
 
-PIPELINE_URL=
+PIPELINE_URL="*local-build*"
 if [[ -n "$CI_PIPELINE_ID" ]]; then
   PIPELINE_URL=$CI_PROJECT_URL/pipelines/$CI_PIPELINE_ID
 fi
 
-upload() {
-  $GR upload \
-    --tag "${RELEASE_NAME}" \
-    --name "$1" \
-    --file "$1"
-}
-
-compress_and_upload() {
-  xz -T 0 -c "$1" > "$2"
-  upload "$2"
-}
-
-# get CHROME_BRANCH
-export FLAGS_version="${RELEASE}"
-source "../../third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh"
-
-RELEASE_TITLE="R${CHROME_BRANCH}-$RELEASE"
-RELEASE_NAME="R${CHROME_BRANCH}-$RELEASE"
+RELEASE_TITLE="${RELEASE}"
+RELEASE_NAME="${RELEASE}"
 RELEASE_TAG="$(git rev-parse HEAD)"
 CHANGES=$(head -n 60 RELEASE.md)
 DESCRIPTION=$(echo -e "${CHANGES}\n\n${PIPELINE_URL}")
@@ -65,13 +54,22 @@ fi
 
 set -xe
 
-cd "../../build/images/${BOARD}/R${CHROME_BRANCH}-${RELEASE}"
+cd "../../build/images/${BOARD}/${RELEASE}"
+
+compress_and_upload() {
+  xz -T 0 -c "$1" > "$2"
+
+  $GR upload \
+    --tag "${RELEASE_NAME}" \
+    --name "$2" \
+    --file "$2"
+}
 
 $GR release \
   --tag "${RELEASE_NAME}" \
   --name "${RELEASE_TITLE}" \
   --description "${DESCRIPTION}" \
-  --target "$RELEASE_TAG" --draft
+  --target "${RELEASE_TAG}" --draft
 
 compress_and_upload chromiumos_base_image.bin \
   "chromiumos-${BOARD}-R${CHROME_BRANCH}-${RELEASE}.img.xz"

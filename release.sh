@@ -7,8 +7,8 @@ if [[ -z "$BOARD" ]]; then
   exit 1
 fi
 
-if [[ -z "$RELEASE" ]]; then
-  echo "Missing RELEASE."
+if [[ -z "$VERSION" ]]; then
+  echo "Missing VERSION."
   exit 1
 fi
 
@@ -17,5 +17,5 @@ set -xe
 ../../scripts/build_image \
   --noenable_rootfs_verification \
   --board="${BOARD}" \
-  --version="${RELEASE}" \
+  --version="${VERSION}" \
   base dev
