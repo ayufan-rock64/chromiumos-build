@@ -67,8 +67,8 @@ cp -av rootfs/opt/google/chrome/pepper/ /opt/google/chrome/
 #   cp -av rootfs/usr/lib/libprotobuf.so.17* /usr/lib/
 # fi
 
-echo "Copying Containers..."
-cp -av rootfs/opt/google/containers /opt/google/
+# echo "Copying Containers..."
+# cp -av rootfs/opt/google/containers /opt/google/
 
 echo "Syncing..."
 sync
