@@ -1,0 +1,77 @@
+From 7cc1e23f9d79d19771265b72b984dc3d5d0213ec Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Tue, 2 Jul 2019 11:17:15 +0200
+Subject: [PATCH] Enable Widevine support
+
+Change-Id: Ib078c517d010e65ce7551fd1b78193b08ed6db15
+---
+ .../chromeos-chrome-76.0.3809.52_rc-r1.ebuild     |  5 +++-
+ .../chromeos-chrome-76.0.3809.52_rc-r1000.ebuild  |  1 +
+ .../widevine-enable-version-string.patch          | 24 +++++++++++++++++++
+ 3 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 120000 chromeos-base/chromeos-chrome/chromeos-chrome-76.0.3809.52_rc-r1000.ebuild
+ create mode 100644 chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch
+
+diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-76.0.3809.52_rc-r1.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-76.0.3809.52_rc-r1.ebuild
+index 41db62cefc4..f0ad03d333a 100644
+--- a/chromeos-base/chromeos-chrome/chromeos-chrome-76.0.3809.52_rc-r1.ebuild
++++ b/chromeos-base/chromeos-chrome/chromeos-chrome-76.0.3809.52_rc-r1.ebuild
+@@ -230,7 +230,9 @@ DEPEND="${DEPEND}
+ 	arm? ( x11-libs/libdrm )
+ "
+ 
+-PATCHES=()
++PATCHES=(
++	"${FILESDIR}"/patches/widevine-enable-version-string.patch
++)
+ 
+ AUTOTEST_COMMON="src/chrome/test/chromeos/autotest/files"
+ AUTOTEST_DEPS="${AUTOTEST_COMMON}/client/deps"
+@@ -441,6 +443,7 @@ set_build_args() {
+ 		echo "Building Chromium with additional media codecs and containers."
+ 		BUILD_ARGS+=( proprietary_codecs=true )
+ 		BUILD_STRING_ARGS+=( ffmpeg_branding=ChromeOS )
++		BUILD_ARGS+=( enable_widevine=true )
+ 	fi
+ 
+ 	if use clang; then
+diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-76.0.3809.52_rc-r1000.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-76.0.3809.52_rc-r1000.ebuild
+new file mode 120000
+index 00000000000..dabd8762326
+--- /dev/null
++++ b/chromeos-base/chromeos-chrome/chromeos-chrome-76.0.3809.52_rc-r1000.ebuild
+@@ -0,0 +1 @@
++chromeos-chrome-76.0.3809.52_rc-r1.ebuild
+\ No newline at end of file
+diff --git a/chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch b/chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch
+new file mode 100644
+index 00000000000..00bca3bfdd6
+--- /dev/null
++++ b/chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch
+@@ -0,0 +1,24 @@
++Description: enable widevine and set its version string to "undefined"
++Author: Michael Gilbert <mgilbert@debian.org>
++Author: Olivier Tilloy <olivier.tilloy@canonical.com>
++
++--- a/third_party/widevine/cdm/widevine_cdm_version.h
+++++ b/third_party/widevine/cdm/widevine_cdm_version.h
++@@ -11,5 +11,6 @@
++ // If the Widevine CDM is available define the following:
++ //  - WIDEVINE_CDM_VERSION_STRING (with the version of the CDM that's available
++ //    as a string, e.g., "1.0.123.456").
+++#define WIDEVINE_CDM_VERSION_STRING "undefined"
++ 
++ #endif  // WIDEVINE_CDM_VERSION_H_
++--- a/chrome/common/chrome_content_client.cc
+++++ b/chrome/common/chrome_content_client.cc
++@@ -97,7 +97,7 @@
++ // Registers Widevine CDM if Widevine is enabled, the Widevine CDM is
++ // bundled and not a component. When the Widevine CDM is a component, it is
++ // registered in widevine_cdm_component_installer.cc.
++-#if BUILDFLAG(BUNDLE_WIDEVINE_CDM) && !BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
+++#if !BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
++ #define REGISTER_BUNDLED_WIDEVINE_CDM
++ #include "third_party/widevine/cdm/widevine_cdm_common.h"  // nogncheck
++ // TODO(crbug.com/663554): Needed for WIDEVINE_CDM_VERSION_STRING. Support
+-- 
+2.20.1
