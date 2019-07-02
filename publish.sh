@@ -80,4 +80,5 @@ compress_and_upload chromiumos_image.bin \
 $GR edit \
   --tag "${RELEASE_NAME}" \
   --name "${RELEASE_TITLE}" \
-  --description "${DESCRIPTION}"
+  --description "${DESCRIPTION}" \
+  --pre-release

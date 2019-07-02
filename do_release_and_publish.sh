@@ -15,16 +15,29 @@ else
   exit 1
 fi
 
-export $("../../third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh" | grep CHROMEOS_BUILD)
+# Get CHROME_BRANCH and CHROMEOS_BUILD
+export $("../../third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh" | grep -E 'CHROMEOS_BUILD|CHROME_BRANCH')
 
-if [[ -z "$CHROMEOS_BUILD" ]]; then
-  echo "Missing CHROMEOS_BUILD."
+if [[ -z "$CHROMEOS_BUILD" ]] || [[ -z "$CHROME_BRANCH" ]]; then
+  echo "Missing CHROME_BRANCH or CHROMEOS_BUILD."
   exit 1
 fi
 
 if [[ -z "$BOARD" ]]; then
   export BOARD="${2:-rockpro64}"
 fi
+
+if [[ -z "$GOOGLE_API_KEY" ]] || [[ -z "$GOOGLE_DEFAULT_CLIENT_ID" ]] || [[ -z "$GOOGLE_DEFAULT_CLIENT_SECRET" ]]; then
+  echo "Missing GOOGLE_API_KEY or GOOGLE_DEFAULT_CLIENT_ID or GOOGLE_DEFAULT_CLIENT_SECRET."
+  exit 1
+fi
+
+# write API keys
+cat > ~/.googleapikeys <<EOF
+'google_api_key': '$GOOGLE_API_KEY',
+'google_default_client_id': '$GOOGLE_DEFAULT_CLIENT_ID',
+'google_default_client_secret': '$GOOGLE_DEFAULT_CLIENT_SECRET',
+EOF
 
 SHA=$(git rev-parse --short HEAD)
 LOCAL_VERSION=$(cat VERSION)
