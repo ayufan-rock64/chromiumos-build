@@ -12,13 +12,20 @@ if [[ -z "$CHROMEOS_BUILD" ]] || [[ -z "$CHROME_BRANCH" ]]; then
   exit 1
 fi
 
-cd "patches/R$CHROME_BRANCH-$CHROMEOS_BUILD/"
+PATCHES_PATH="patches/R$CHROME_BRANCH-$CHROMEOS_BUILD"
+
+if [[ ! -d "$PATCHES_PATH" ]]; then
+  echo "Missing $PATCHES_PATH, it seems that this release is not supported."
+  exit 1
+fi
+
+cd "$PATCHES_PATH/"
 
 while read TARGET_PATH; do
   echo "Processing $TARGET_PATH..."
 
   PATCH_PATH="$PWD/$TARGET_PATH"
-  REL_TARGET_PATH="../../../../$TARGET_PATH"
+  REL_TARGET_PATH="../../../../../$TARGET_PATH"
 
   git -C "$REL_TARGET_PATH" reset --hard
   git -C "$REL_TARGET_PATH" clean -fdx
