@@ -1,13 +1,19 @@
-commit 804b526268ba54df99f4846948ef2572e8673537
-Author: Kamil Trzciński <ayufan@ayufan.eu>
-Date:   Fri Jun 21 15:30:00 2019 +0200
+From 7cc1e23f9d79d19771265b72b984dc3d5d0213ec Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Tue, 2 Jul 2019 11:17:15 +0200
+Subject: [PATCH] Enable Widevine support
 
-    Enable Widevine
-    
-    Change-Id: I36a27dc28fddeaad07e71d7541f3d4f58c3d127b
+Change-Id: Ib078c517d010e65ce7551fd1b78193b08ed6db15
+---
+ .../chromeos-chrome-77.0.3813.0_rc-r1.ebuild  |  5 +++-
+ .../chromeos-chrome-77.0.3813.0_rc-r2.ebuild  |  1 +
+ .../widevine-enable-version-string.patch      | 24 +++++++++++++++++++
+ 3 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 120000 chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild
+ create mode 100644 chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch
 
 diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
-index 41db62cefc4..29a474da0c7 100644
+index 41db62cefc4..f0ad03d333a 100644
 --- a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
 +++ b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
 @@ -230,7 +230,9 @@ DEPEND="${DEPEND}
@@ -21,6 +27,14 @@ index 41db62cefc4..29a474da0c7 100644
  
  AUTOTEST_COMMON="src/chrome/test/chromeos/autotest/files"
  AUTOTEST_DEPS="${AUTOTEST_COMMON}/client/deps"
+@@ -441,6 +443,7 @@ set_build_args() {
+ 		echo "Building Chromium with additional media codecs and containers."
+ 		BUILD_ARGS+=( proprietary_codecs=true )
+ 		BUILD_STRING_ARGS+=( ffmpeg_branding=ChromeOS )
++		BUILD_ARGS+=( enable_widevine=true )
+ 	fi
+ 
+ 	if use clang; then
 diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild
 new file mode 120000
 index 00000000000..dabd8762326
@@ -59,3 +73,5 @@ index 00000000000..00bca3bfdd6
 + #define REGISTER_BUNDLED_WIDEVINE_CDM
 + #include "third_party/widevine/cdm/widevine_cdm_common.h"  // nogncheck
 + // TODO(crbug.com/663554): Needed for WIDEVINE_CDM_VERSION_STRING. Support
+-- 
+2.20.1
