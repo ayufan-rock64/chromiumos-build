@@ -6,7 +6,7 @@ set -e
 
 if [[ "$(id -u)" != "0" ]]; then
 	echo "This script requires to be run as root."
-  echo "sudo $@"
+  echo "sudo $0 $@"
 	exit 1
 fi
 

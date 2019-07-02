@@ -51,6 +51,6 @@ src_install() {
   install_audio_configs kevin "${audio_config_dir}"
 
   # Install additional scripts
-  exeinto "/usr/local/bin"
+  exeinto "/usr/bin"
   doexe "${FILESDIR}"/scripts/*
 }
