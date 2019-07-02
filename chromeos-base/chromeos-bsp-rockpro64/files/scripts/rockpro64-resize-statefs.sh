@@ -8,6 +8,11 @@ if [[ "$(id -u)" != "0" ]]; then
 	exit 1
 fi
 
+if [[ $# -gt 1 ]]; then
+  echo "usage: $0 <10M|1G|10G>"
+  exit 1
+fi
+
 if ! STATE_PATH=$(findmnt -n -o SOURCE -M /mnt/stateful_partition); then
   echo "Failed to find STATE partition."
   exit 1
@@ -21,6 +26,6 @@ if [[ -z "$STATE_DISK" ]] || [[ -z "$STATE_PART" ]]; then
   exit 1
 fi
 
-sfdisk -N 1 --no-reread "$STATE_DISK" < <(echo ", +")
+sfdisk -N 1 --no-reread "$STATE_DISK" < <(echo ", +$1")
 partx -u "$STATE_DISK"
 resize2fs "$STATE_PATH"
