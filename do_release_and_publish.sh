@@ -53,6 +53,7 @@ export FLAGS_version="${VERSION}"
 
 set -xe
 
+./scripts/setup.sh
 ./scripts/packages.sh
 ./scripts/release.sh
 ./scripts/publish.sh
