@@ -1,38 +1,18 @@
 #!/bin/bash
 
-cd $(dirname "$0")
+cd "$(dirname "$0")/../"
 
 if [[ -e .env ]]; then
   source .env
 fi
 
-if [[ -z "$BOARD" ]]; then
-  echo "Missing BOARD."
-  exit 1
+if  [[ -z "$GITHUB_USER" ]] || [[ -z "$GITHUB_REPO" ]] || [[ -z "$GITHUB_TOKEN" ]]; then
+  echo "Missing GITHUB_USER, GITHUB_REPO or GITHUB_TOKEN. Skipping publish."
+  exit 0
 fi
 
-if [[ -z "$VERSION" ]]; then
-  echo "Missing VERSION."
-  exit 1
-fi
-
-if [[ -z "$RELEASE" ]]; then
-  echo "Missing RELEASE."
-  exit 1
-fi
-
-if [[ -z "$GITHUB_USER" ]]; then
-  echo "Missing GITHUB_USER."
-  exit 1
-fi
-
-if [[ -z "$GITHUB_REPO" ]]; then
-  echo "Missing GITHUB_REPO."
-  exit 1
-fi
-
-if [[ -z "$GITHUB_TOKEN" ]]; then
-  echo "Missing GITHUB_REPO."
+if [[ -z "$BOARD" ]] || [[ -z "$VERSION" ]] || [[ -z "$RELEASE" ]]; then
+  echo "Missing BOARD, VERSION or RELEASE."
   exit 1
 fi
 

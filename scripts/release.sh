@@ -1,14 +1,9 @@
 #!/bin/bash
 
-cd $(dirname "$0")
+cd "$(dirname "$0")/../"
 
-if [[ -z "$BOARD" ]]; then
-  echo "Missing BOARD."
-  exit 1
-fi
-
-if [[ -z "$VERSION" ]]; then
-  echo "Missing VERSION."
+if [[ -z "$BOARD" ]] || [[ -z "$VERSION" ]]; then
+  echo "Missing BOARD or VERSION."
   exit 1
 fi
 
