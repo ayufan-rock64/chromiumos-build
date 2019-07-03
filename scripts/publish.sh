@@ -52,10 +52,10 @@ $GR release \
   --target "${RELEASE_TAG}" --draft
 
 compress_and_upload chromiumos_base_image.bin \
-  "chromiumos-${BOARD}-R${CHROME_BRANCH}-${RELEASE}.img.xz"
+  "chromiumos-${BOARD}-${RELEASE}.img.xz"
 
 compress_and_upload chromiumos_image.bin \
-  "chromiumos-${BOARD}-R${CHROME_BRANCH}-${RELEASE}-dev.img.xz"
+  "chromiumos-${BOARD}-${RELEASE}-dev.img.xz"
 
 $GR edit \
   --tag "${RELEASE_NAME}" \
