@@ -28,7 +28,7 @@ CHANGES=$(head -n 60 RELEASE.md)
 DESCRIPTION=$(echo -e "${CHANGES}\n\n${PIPELINE_URL}")
 
 GR=${GOPATH:-~}/go/bin/github-release
-if [[ -x "$GR" ]]; then
+if [[ ! -x "$GR" ]]; then
   go get -u github.com/aktau/github-release
 fi
 
