@@ -4,22 +4,31 @@ stages:
   - build
 
 variables:
-  GITHUB_USER: ayufan-rock64
-  GITHUB_REPO: chromiumos-build
-
+  # for cros_init.sh
   MANIFEST_BRANCH: release-R76-12239.B
   WORK_PATH: /data/chromiumos/$MANIFEST_BRANCH
+
+  # for chrome-bot and cros_set_lsb_release.py
+  BUILDBOT_BUILD: $CI_PIPELINE_IID
+  CHROMEOS_VERSION_AUSERVER: https://chromiumos.ayufan.eu/update
+  CHROMEOS_VERSION_DEVSERVER: https://chromiumos.ayufan.eu
+  CHROMEOS_VERSION_TRACK: buildbot-build
+
+  # for ./scripts/publish.sh
+  GITHUB_USER: ayufan-rock64
+  GITHUB_REPO: chromiumos-build
+  # GITHUB_TOKEN: defined in secret variables
 
 # this requires GitLab Runner running in Privileged mode
 image:
   before_script:
     - mkdir -p "$WORK_PATH"
-    - useradd -u 1000 -g users -m -G sudo chronos
-    - chown chronos:users "$WORK_PATH"
-    - sudo -EHu chronos -- ./cros_init.sh "$WORK_PATH"
+    - useradd -u 1000 -g users -m -G sudo chrome-bot
+    - chown chrome-bot:users "$WORK_PATH"
+    - sudo -EHu chrome-bot -- ./cros_init.sh "$WORK_PATH"
   script:
-    - sudo -EHu chronos -- ./cros_run.sh "$WORK_PATH" ~/trunk/src/overlays/overlay-rockpro64/do_apply_patches.sh
-    - sudo -EHu chronos -- ./cros_run.sh "$WORK_PATH" ~/trunk/src/overlays/overlay-rockpro64/do_release_and_publish.sh
+    - sudo -EHu chrome-bot -- ./cros_run.sh "$WORK_PATH" ~/trunk/src/overlays/overlay-rockpro64/do_apply_patches.sh
+    - sudo -EHu chrome-bot -- ./cros_run.sh "$WORK_PATH" ~/trunk/src/overlays/overlay-rockpro64/do_release_and_publish.sh
   when: manual
   only:
     refs: [master]
