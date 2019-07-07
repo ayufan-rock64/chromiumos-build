@@ -22,6 +22,14 @@ fi
 echo "FDT: ${fdtfile}"
 echo "Bootdevice: ${bootdevice}"
 
+if test -e ${devtype} ${devnum}:${distro_bootpart} ${prefix}/first-b.txt; then
+  echo "Found ${prefix}/first-b.txt, trying ROOT-B first"
+  setenv prefix /boot
+  setenv distro_bootpart 5
+  setenv bootdevice_part 5
+  run boot_extlinux
+fi
+
 # Scan ROOT-A
 setenv prefix /boot/
 setenv distro_bootpart 3
