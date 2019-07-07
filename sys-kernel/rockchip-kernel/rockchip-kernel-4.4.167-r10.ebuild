@@ -1,1 +1,0 @@
-rockchip-kernel-4.4.167.ebuild

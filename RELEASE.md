@@ -33,3 +33,9 @@ but first follow the resize manual:
 2. Login: `chronos/chronos`,
 3. Run: `sudo rockpro64-install-widevine.sh`,
 4. Reboot: `sudo reboot`.
+
+## Changelog
+
+- R76-12239.5.x: update kernel to 4.4.184,
+- R76-12239.4.x: initial release,
+
