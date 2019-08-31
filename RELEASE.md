@@ -36,6 +36,11 @@ but first follow the resize manual:
 
 ## Changelog
 
+- R76-12239.7.x: update kernel to 4.4.190,
+- R76-12239.7.x: update u-boot to 2017.09-1065 (`95f6152134`) (enables LED support for all boards),
+- R76-12239.6.x: update kernel to 4.4.189 (improves suspend, fixes DMA, etc.),
+- R76-12239.6.x: fix BT audio (set UART to 1.5M),
+- R76-12239.6.x: add support for sleep button,
+- R76-12239.6.x: update linux-package,
 - R76-12239.5.x: update kernel to 4.4.184,
 - R76-12239.4.x: initial release,
-
