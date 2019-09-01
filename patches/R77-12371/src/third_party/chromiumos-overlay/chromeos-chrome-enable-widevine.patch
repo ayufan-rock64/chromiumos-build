@@ -5,17 +5,17 @@ Subject: [PATCH] Enable Widevine support
 
 Change-Id: Ib078c517d010e65ce7551fd1b78193b08ed6db15
 ---
- .../chromeos-chrome-77.0.3813.0_rc-r1.ebuild  |  5 +++-
- .../chromeos-chrome-77.0.3813.0_rc-r2.ebuild  |  1 +
+ .../chromeos-chrome-77.0.3865.61_rc-r1.ebuild  |  5 +++-
+ .../chromeos-chrome-77.0.3865.61_rc-r2.ebuild  |  1 +
  .../widevine-enable-version-string.patch      | 24 +++++++++++++++++++
  3 files changed, 29 insertions(+), 1 deletion(-)
- create mode 120000 chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild
+ create mode 120000 chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3865.61_rc-r2.ebuild
  create mode 100644 chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch
 
-diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
+diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3865.61_rc-r1.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3865.61_rc-r1.ebuild
 index 41db62cefc4..f0ad03d333a 100644
---- a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
-+++ b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r1.ebuild
+--- a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3865.61_rc-r1.ebuild
++++ b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3865.61_rc-r1.ebuild
 @@ -230,7 +230,9 @@ DEPEND="${DEPEND}
  	arm? ( x11-libs/libdrm )
  "
@@ -29,19 +29,19 @@ index 41db62cefc4..f0ad03d333a 100644
  AUTOTEST_DEPS="${AUTOTEST_COMMON}/client/deps"
 @@ -441,6 +443,7 @@ set_build_args() {
  		echo "Building Chromium with additional media codecs and containers."
- 		BUILD_ARGS+=( proprietary_codecs=true )
- 		BUILD_STRING_ARGS+=( ffmpeg_branding=ChromeOS )
-+		BUILD_ARGS+=( enable_widevine=true )
+ 		BUILD_ARGS+=( "proprietary_codecs=true" )
+ 		BUILD_STRING_ARGS+=( "ffmpeg_branding=ChromeOS" )
++		BUILD_ARGS+=( "enable_widevine=true" )
  	fi
  
  	if use clang; then
-diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild
+diff --git a/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3865.61_rc-r2.ebuild b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3865.61_rc-r2.ebuild
 new file mode 120000
 index 00000000000..dabd8762326
 --- /dev/null
-+++ b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3813.0_rc-r2.ebuild
++++ b/chromeos-base/chromeos-chrome/chromeos-chrome-77.0.3865.61_rc-r2.ebuild
 @@ -0,0 +1 @@
-+chromeos-chrome-77.0.3813.0_rc-r1.ebuild
++chromeos-chrome-77.0.3865.61_rc-r1.ebuild
 \ No newline at end of file
 diff --git a/chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch b/chromeos-base/chromeos-chrome/files/patches/widevine-enable-version-string.patch
 new file mode 100644

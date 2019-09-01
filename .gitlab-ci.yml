@@ -5,7 +5,7 @@ stages:
 
 variables:
   # for cros_init.sh
-  MANIFEST_BRANCH: release-R76-12239.B
+  MANIFEST_BRANCH: release-R77-12371.B
   WORK_PATH: /data/chromiumos/$MANIFEST_BRANCH
 
   # for chrome-bot and cros_set_lsb_release.py
