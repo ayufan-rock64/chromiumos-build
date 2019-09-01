@@ -16,14 +16,11 @@ fi
 
 SELF_PATH="$(dirname $(readlink -f "$0"))"
 TARGET_PATH="$1"
-shift
+MANIFEST_BRANCH="${2:-$MANIFEST_BRANCH}"
+shift 2
 
 mkdir -p "$TARGET_PATH/"
 cd "$TARGET_PATH/"
-
-if [[ -n "$2" ]]; then
-  MANIFEST_BRANCH="$2"
-fi
 
 if [[ -z "$MANIFEST_BRANCH" ]]; then
   echo "Missing MANIFEST_BRANCH."
