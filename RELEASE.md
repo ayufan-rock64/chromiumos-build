@@ -36,6 +36,7 @@ but first follow the resize manual:
 
 ## Changelog
 
+- R77-12371.7.x: update to R77,
 - R76-12239.7.x: update kernel to 4.4.190,
 - R76-12239.7.x: update u-boot to 2017.09-1065 (`95f6152134`) (enables LED support for all boards),
 - R76-12239.6.x: update kernel to 4.4.189 (improves suspend, fixes DMA, etc.),
