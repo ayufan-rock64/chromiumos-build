@@ -2,8 +2,9 @@
 
 set -eo pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo "usage: $0 <path/to/root>"
+if [[ $# -ne 1 ]] && [[ $# -ne 2 ]]; then
+  echo "usage: $0 <path/to/root> [manifest-branch]"
+  echo "  eg.: manifest-branch: release-R77-12371.B"
   exit 1
 fi
 
@@ -19,6 +20,10 @@ shift
 
 mkdir -p "$TARGET_PATH/"
 cd "$TARGET_PATH/"
+
+if [[ -n "$2" ]]; then
+  MANIFEST_BRANCH="$2"
+fi
 
 if [[ -z "$MANIFEST_BRANCH" ]]; then
   echo "Missing MANIFEST_BRANCH."
